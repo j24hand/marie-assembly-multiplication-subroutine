@@ -1,0 +1,124 @@
+/ Richard Hand
+/ CGS3269-26 Spring 0001
+/ Programming Project 3 (Subroutines)
+/ 3/27/2026
+
+
+/ ---------- INPUT AND VALIDATION FOR a ----------
+Input                 / read first value from user
+Store a               / store input into variable a
+Load a                / load a into AC
+JNS CheckPositive     / call subroutine to make sure a is positive
+Output                / display valid input
+
+/ ---------- INPUT AND VALIDATION FOR b ----------
+Input                 / read second value from user
+Store b               / store input into variable b
+Load b                / load b into AC
+JNS CheckPositive     / call subroutine to make sure b is positive
+Output                / display valid input
+
+/ ---------- INPUT AND VALIDATION FOR c ----------
+Input                 / read third value from user
+Store c               / store input into variable c
+Load c                / load c into AC
+JNS CheckPositive     / call subroutine to make sure c is positive
+Output                / display valid input
+
+/ ---------- INPUT AND VALIDATION FOR d ----------
+Input                 / read fourth value from user
+Store d               / store input into variable d
+Load d                / load d into AC
+JNS CheckPositive     / call subroutine to make sure d is positive
+Output                / display valid input
+
+/ ---------- INPUT AND VALIDATION FOR e ----------
+Input                 / read fifth value from user
+Store e               / store input into variable e
+Load e                / load e into AC
+JNS CheckPositive     / call subroutine to make sure e is positive
+Output                / display valid input
+
+/ ---------- COMPUTE (a * b) ----------
+Load a                / load a into AC
+Store T1              / store a into temporary multiplier T1
+Load b                / load b into AC
+Store T2              / store b into temporary counter T2
+JnS Mult              / call multiplication subroutine
+Load Result           / load multiplication result
+Store R1              / store result of (a * b) into R1
+
+/ ---------- COMPUTE (c * d) ----------
+Load c                / load c into AC
+Store T1              / store c into temporary multiplier T1
+Load d                / load d into AC
+Store T2              / store d into temporary counter T2
+JnS Mult              / call multiplication subroutine
+Load Result           / load multiplication result
+Store R2              / store result of (c * d) into R2
+
+/ ---------- COMPUTE (R1 * R2) = (a*b)*(c*d) ----------
+Load R1               / load R1 into AC
+Store T1              / store R1 into T1
+Load R2               / load R2 into AC
+Store T2              / store R2 into T2
+JnS Mult              / call multiplication subroutine
+Load Result           / load multiplication result
+Store R3              / store result of (R1 * R2) into R3
+
+/ ---------- COMPUTE (R3 * e) = FINAL z ----------
+Load R3               / load R3 into AC
+Store T1              / store R3 into T1
+Load e                / load e into AC
+Store T2              / store e into T2
+JnS Mult              / call multiplication subroutine
+Load Result           / load multiplication result
+Store z               / store final result into z
+
+Load z                / load final value z
+Output                / display final result
+Halt                  / stop program
+
+/ ---------- MULTIPLICATION SUBROUTINE ----------
+/ multiplies T1 * T2 using repeated addition
+Mult, HEX 0
+      Clear           / clear AC to 0
+      Store Result    / initialize Result = 0
+Loop, Load Result     / load current result
+      Add T1          / add T1 each loop
+      Store Result    / store updated result
+      Load T2         / load loop counter
+      Subt One        / subtract 1 from counter
+      Store T2        / store updated counter
+      Skipcond 400    / skip next instruction if AC = 0
+      Jump Loop       / repeat loop until T2 becomes 0
+      JumpI Mult      / return from subroutine
+
+/ ---------- POSITIVE CHECK SUBROUTINE ----------
+/ returns only when AC > 0
+CheckPositive, HEX 0
+CheckLoop, Skipcond 800     / if AC > 0, skip next instruction
+           Jump BadInput    / if value is not positive, go to bad input
+           JumpI CheckPositive / return if input is positive
+
+BadInput,  Output 0         / output invalid value / error case
+           Halt             / stop program if input is not positive
+          / Store Temp
+         /  Load Temp
+         /  Jump CheckLoop
+
+/ ---------- VARIABLES ----------
+a, DEC 0               / input a
+b, DEC 0               / input b
+c, DEC 0               / input c
+d, DEC 0               / input d
+e, DEC 0               / input e
+T1, DEC 0              / temporary value 1 for multiplication
+T2, DEC 0              / temporary value 2 / loop counter
+R1, DEC 0              / stores (a * b)
+R2, DEC 0              / stores (c * d)
+R3, DEC 0              / stores (R1 * R2)
+Result, DEC 0          / multiplication result holder
+z, DEC 0               / final answer
+One, DEC 1             / constant 1
+Temp, DEC 0            / unused temporary variable
